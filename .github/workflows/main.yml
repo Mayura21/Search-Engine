@@ -1,20 +1,20 @@
-. Modify the Push to hub step in your workflow file as- name: Pull latest from Hugging Face
-  env:
-    follows:
+name: Sync to Hugging Face hub
+on:
+  push:
+    branches: [main]
 
-```yaml
-- name: Pull and push to HF_TOKEN: ${{ secrets.HF_TOKEN }}
-  run: |
-    git remote hub
-  env:
-    HF_TOKEN: ${{ secrets.HF_TOKEN }}
-  run: |
- add hf https://MayuraKrishna:$HF_TOKEN@huggingface.co/spaces/MayuraKrishna/SearchEngine
-    git fetch    git pull https://MayuraKrishna:$HF_TOKEN@huggingface.co/spaces/MayuraKrishna/SearchEngine main --rebase
- hf main
-    git merge hf/main || true
+  # to run this workflow manually from the Actions tab
+  workflow_dispatch:
 
--    git push https://MayuraKrishna:$HF_TOKEN@hug name: Push to hub
-  env:
-    HF_TOKEN: ${{ secrets.HF_TOKEN }}
- gingface.co/spaces/MayuraKrishna/SearchEngine main
+jobs:
+  sync-to-hub:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          lfs: true
+      - name: Push to hub
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: git push https://MayuraKrishna:$HF_TOKEN@huggingface.co/spaces/MayuraKrishna/Search_Engine main
