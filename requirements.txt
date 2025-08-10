@@ -29,3 +29,4 @@ unstructured
 langchain_huggingface
 huggingface_hub
 validators
+langchain_groq
